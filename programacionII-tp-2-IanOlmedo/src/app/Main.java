@@ -24,10 +24,10 @@ public class Main {
         }
 
         // Mostrar datos registrados
-        System.out.println("\n=== Recursos Digitales Registrados ===");
+        System.out.println("\n --Recursos Digitales Registrados --");
         gestorRecursos.listarRecursos();
 
-        System.out.println("\n=== Usuarios Registrados ===");
+        System.out.println("\n --Usuarios Registrados--");
         gestorUsuarios.listarUsuarios();
     }
 

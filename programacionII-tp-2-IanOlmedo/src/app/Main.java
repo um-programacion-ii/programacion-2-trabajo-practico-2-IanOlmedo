@@ -2,6 +2,7 @@ package app;
 
 import Gestores.GestorRecursos;
 import consola.BuscadorRecursos;
+import consola.BuscadorUsuario;
 import consola.Consola;
 import Gestores.GestorUsuarios;
 import Modelo.*;
@@ -21,7 +22,8 @@ public class Main {
             System.out.println("\n--- MENÚ PRINCIPAL ---");
             System.out.println("1. Registrar nuevo usuario");
             System.out.println("2. Registrar nuevo recurso digital");
-            System.out.println("3. Buscar recursos");
+            System.out.println("3. Gestionar recursos");
+            System.out.println("4. Buscar Usuario");
             System.out.println("0. Salir");
 
             int opcion = Consola.leerEntero("Seleccione una opción: ");
@@ -40,12 +42,17 @@ public class Main {
                 case 3:
                     BuscadorRecursos.menuBusqueda(gestorRecursos);
                     break;
+                case 4:
+                    BuscadorUsuario.menuBusqueda(gestorUsuarios);
+                    break;
                 case 0:
                     salir = true;
                     System.out.println("Saliendo del sistema. ¡Hasta luego!");
                     break;
                 default:
                     System.out.println("Opción no válida.");
+
+
             }
         }
     }

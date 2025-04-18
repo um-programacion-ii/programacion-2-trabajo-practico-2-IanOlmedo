@@ -1,4 +1,5 @@
 package Gestores;
+import Excepciones.RecursoNoDisponibleException;
 import Modelo.RecursoDigital;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,16 +24,28 @@ public class GestorRecursos {
         }
     }
 
-    public List<RecursoDigital> buscarPorTitulo(String titulo){
-        return recursos.stream()
+    public List<RecursoDigital> buscarPorTitulo(String titulo) throws RecursoNoDisponibleException {
+        List<RecursoDigital> resultado = recursos.stream()
                 .filter(r -> r.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
                 .collect(Collectors.toList());
+
+        if (resultado.isEmpty()) {
+            throw new RecursoNoDisponibleException("No se encontraron recursos con el título que contiene: " + titulo);
+        }
+
+        return resultado;
     }
 
-    public List<RecursoDigital> filtrarPorCategoria(Enum categoria) {
-        return recursos.stream()
+    public List<RecursoDigital> filtrarPorCategoria(Enum categoria) throws RecursoNoDisponibleException {
+        List<RecursoDigital> resultado = recursos.stream()
                 .filter(r -> r.getCategoria() == categoria)
                 .collect(Collectors.toList());
+
+        if (resultado.isEmpty()) {
+            throw new RecursoNoDisponibleException("No se encontraron recursos en la categoría: " + categoria);
+        }
+
+        return resultado;
     }
 
     public List<RecursoDigital> ordenarPorAutor(){

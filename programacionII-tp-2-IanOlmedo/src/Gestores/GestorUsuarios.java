@@ -4,7 +4,9 @@ import Modelo.Usuario;
 import Modelo.ServicioNotificaciones;
 import java.util.Map;
 import java.util.HashMap;
-
+import Excepciones.UsuarioNoEncontradoException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GestorUsuarios {
     private Map<String, Usuario> usuarios;
@@ -17,7 +19,7 @@ public class GestorUsuarios {
 
     public void agregarUsuario(Usuario usuario){
         usuarios.put(usuario.getEmail(), usuario);
-        notificador.notificar("Usuario agregado: "+usuario.getNombre());
+        notificador.notificar("Usuario agregado: " + usuario.getNombre());
     }
 
     public void listarUsuarios(){
@@ -30,5 +32,15 @@ public class GestorUsuarios {
         return usuarios.get(email);
     }
 
+    public Usuario buscarPorId(int id) throws UsuarioNoEncontradoException {
+        return usuarios.values().stream()
+                .filter(u -> u.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new UsuarioNoEncontradoException("Usuario con ID " + id + " no encontrado."));
+    }
 
+    public List<Usuario> getTodosLosUsuarios() {
+        return usuarios.values().stream().collect(Collectors.toList());
+    }
 }
+

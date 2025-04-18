@@ -29,9 +29,9 @@ public class GestorRecursos {
                 .collect(Collectors.toList());
     }
 
-    public List<RecursoDigital> filtrarPorCategoria(String categoria){
+    public List<RecursoDigital> filtrarPorCategoria(Enum categoria) {
         return recursos.stream()
-                .filter(r -> r.getClass().getSimpleName().equalsIgnoreCase(categoria))
+                .filter(r -> r.getCategoria() == categoria)
                 .collect(Collectors.toList());
     }
 

@@ -4,5 +4,6 @@ package Modelo;
         void mostrarInformacion();
         String getTitulo();
         String getAutor();
+        CategoriaRecurso getCategoria();
     }
 

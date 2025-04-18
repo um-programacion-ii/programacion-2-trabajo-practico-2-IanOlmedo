@@ -68,4 +68,11 @@ public class Libro implements RecursoDigital, Prestable, Renovable{
         return autor;
     }
 
+
+    private final CategoriaRecurso categoria = CategoriaRecurso.LIBRO;
+    @Override
+    public CategoriaRecurso getCategoria(){
+        return categoria;
+    }
+
 }

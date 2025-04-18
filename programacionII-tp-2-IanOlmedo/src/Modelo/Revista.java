@@ -33,4 +33,11 @@ public class Revista implements RecursoDigital {
     public int getEdicion() {
         return edicion;
     }
+
+    private final CategoriaRecurso categoria = CategoriaRecurso.REVISTA;
+
+    @Override
+    public CategoriaRecurso getCategoria() {
+        return categoria;
+    }
 }

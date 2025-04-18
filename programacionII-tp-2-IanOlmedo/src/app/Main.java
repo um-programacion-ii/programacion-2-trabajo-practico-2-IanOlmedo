@@ -1,9 +1,11 @@
 package app;
 
 import Gestores.GestorRecursos;
+import consola.BuscadorRecursos;
 import consola.Consola;
 import Gestores.GestorUsuarios;
 import Modelo.*;
+
 
 public class Main {
 
@@ -13,22 +15,47 @@ public class Main {
         GestorUsuarios gestorUsuarios = new GestorUsuarios(notificador);
         GestorRecursos gestorRecursos = new GestorRecursos();
 
-        System.out.println("--Registrar nuevo usuario--");
-        Usuario nuevoUsuario = crearUsuarioDesdeConsola();
-        gestorUsuarios.agregarUsuario(nuevoUsuario);
+        boolean salir = false;
 
-        System.out.println("\n--Registrar nuevo Recurso Digital--");
-        RecursoDigital nuevoRecurso = crearRecursoDesdeConsola();
-        if (nuevoRecurso != null) {
-            gestorRecursos.agregarRecurso(nuevoRecurso);
+        while (!salir) {
+            System.out.println("\n--- MENÚ PRINCIPAL ---");
+            System.out.println("1. Registrar nuevo usuario");
+            System.out.println("2. Registrar nuevo recurso digital");
+            System.out.println("3. Listar usuarios");
+            System.out.println("4. Listar recursos");
+            System.out.println("5. Buscar recursos");
+            System.out.println("0. Salir");
+
+            int opcion = Consola.leerEntero("Seleccione una opción: ");
+
+            switch (opcion) {
+                case 1:
+                    Usuario nuevoUsuario = crearUsuarioDesdeConsola();
+                    gestorUsuarios.agregarUsuario(nuevoUsuario);
+                    break;
+                case 2:
+                    RecursoDigital nuevoRecurso = crearRecursoDesdeConsola();
+                    if (nuevoRecurso != null) {
+                        gestorRecursos.agregarRecurso(nuevoRecurso);
+                    }
+                    break;
+                case 3:
+                    gestorUsuarios.listarUsuarios();
+                    break;
+                case 4:
+                    gestorRecursos.listarRecursos();
+                    break;
+                case 5:
+                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    break;
+                case 0:
+                    salir = true;
+                    System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
         }
-
-        // Mostrar datos registrados
-        System.out.println("\n --Recursos Digitales Registrados --");
-        gestorRecursos.listarRecursos();
-
-        System.out.println("\n --Usuarios Registrados--");
-        gestorUsuarios.listarUsuarios();
     }
 
     private static Usuario crearUsuarioDesdeConsola() {

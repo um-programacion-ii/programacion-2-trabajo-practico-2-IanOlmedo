@@ -1,6 +1,9 @@
 package Gestores;
 import Modelo.RecursoDigital;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class GestorRecursos {
@@ -20,14 +23,24 @@ public class GestorRecursos {
         }
     }
 
-    public RecursoDigital buscarPorTiulo(String titulo){
-        for (RecursoDigital r : recursos) {
-            if (r.getTitulo().equalsIgnoreCase(titulo)){
-                return r;
-            }
-        }
-        return null;
+    public List<RecursoDigital> buscarPorTitulo(String titulo){
+        return recursos.stream()
+                .filter(r -> r.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                .collect(Collectors.toList());
     }
+
+    public List<RecursoDigital> filtrarPorCategoria(String categoria){
+        return recursos.stream()
+                .filter(r -> r.getClass().getSimpleName().equalsIgnoreCase(categoria))
+                .collect(Collectors.toList());
+    }
+
+    public List<RecursoDigital> ordenarPorAutor(){
+        return recursos.stream()
+                .sorted(Comparator.comparing(RecursoDigital::getAutor))
+                .collect(Collectors.toList());
+    }
+
 
 
 }

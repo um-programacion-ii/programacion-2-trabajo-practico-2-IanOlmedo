@@ -21,9 +21,7 @@ public class Main {
             System.out.println("\n--- MENÚ PRINCIPAL ---");
             System.out.println("1. Registrar nuevo usuario");
             System.out.println("2. Registrar nuevo recurso digital");
-            System.out.println("3. Listar usuarios");
-            System.out.println("4. Listar recursos");
-            System.out.println("5. Buscar recursos");
+            System.out.println("3. Buscar recursos");
             System.out.println("0. Salir");
 
             int opcion = Consola.leerEntero("Seleccione una opción: ");
@@ -40,12 +38,6 @@ public class Main {
                     }
                     break;
                 case 3:
-                    gestorUsuarios.listarUsuarios();
-                    break;
-                case 4:
-                    gestorRecursos.listarRecursos();
-                    break;
-                case 5:
                     BuscadorRecursos.menuBusqueda(gestorRecursos);
                     break;
                 case 0:

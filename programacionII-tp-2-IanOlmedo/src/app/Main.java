@@ -2,12 +2,10 @@ package app;
 
 import Gestores.GestorPrestamos;
 import Gestores.GestorRecursos;
-import consola.BuscadorRecursos;
-import consola.BuscadorUsuario;
-import consola.Consola;
+import Gestores.GestorReservas;
+import consola.*;
 import Gestores.GestorUsuarios;
 import Modelo.*;
-import consola.MenuPrestamos;
 
 
 public class Main {
@@ -18,6 +16,7 @@ public class Main {
         GestorUsuarios gestorUsuarios = new GestorUsuarios(notificador);
         GestorRecursos gestorRecursos = new GestorRecursos();
         GestorPrestamos gestorPrestamos = new GestorPrestamos();
+        GestorReservas gestorReservas = new GestorReservas();
 
         boolean salir = false;
 
@@ -26,8 +25,9 @@ public class Main {
             System.out.println("1. Registrar nuevo usuario");
             System.out.println("2. Registrar nuevo recurso digital");
             System.out.println("3. Ir a menu de prestamos");
-            System.out.println("3. Gestionar recursos");
-            System.out.println("4. Buscar Usuario");
+            System.out.println("4. Reservas");
+            System.out.println("5. Gestionar recursos");
+            System.out.println("6. Buscar Usuario");
             System.out.println("0. Salir");
 
             int opcion = Consola.leerEntero("Seleccione una opción: ");
@@ -47,9 +47,12 @@ public class Main {
                     MenuPrestamos.mostrarMenu(gestorPrestamos, gestorUsuarios, gestorRecursos);
                     break;
                 case 4:
-                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    MenuReservas.mostrarMenu(gestorReservas, gestorUsuarios, gestorRecursos);
                     break;
                 case 5:
+                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    break;
+                case 6:
                     BuscadorUsuario.menuBusqueda(gestorUsuarios);
                     break;
                 case 0:

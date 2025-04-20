@@ -7,7 +7,7 @@ import java.util.*;
 
 
 public class GestorReservas {
-    private Map<RecursoDigital, BlockingQueue<Reserva>> reservasPorRecurso = new HashMap<>();
+    private Map<RecursoDigital, BlockingQueue<Reserva>> reservasPorRecurso;
     private ServicioNotificaciones notificador;
 
     public GestorReservas(ServicioNotificaciones notificador) {
@@ -19,7 +19,8 @@ public class GestorReservas {
         reservasPorRecurso.putIfAbsent(recurso, new LinkedBlockingQueue<>());  // ayudo IA
         Reserva reserva = new Reserva(usuario, recurso);
         reservasPorRecurso.get(recurso).add(reserva);
-        notificador.notificar("Nueva reserva para '" + recurso.getTitulo() + "' por el usuario " + usuario.getNombre());
+        System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Reserva registrada para " + recurso.getTitulo() + " por " + usuario.getNombre());
+        notificador.notificar("Nueva reserva para " + recurso.getTitulo() + "' por el usuario " + usuario.getNombre());
     }
 
     public Reserva obtenerProximaReserva(RecursoDigital recurso) {
@@ -33,9 +34,12 @@ public class GestorReservas {
     public void procesarReserva(RecursoDigital recurso) {
         BlockingQueue<Reserva> cola = reservasPorRecurso.get(recurso);
         if (cola != null && !cola.isEmpty()) {
-            Reserva reserva = cola.poll(); // saca al primero
+            Reserva reserva = cola.poll();
             recurso.setEstado(EstadoRecurso.RESERVADO);
+            System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Reserva procesada: " + reserva);
             notificador.notificar("Reserva procesada: " + reserva);
+        } else {
+            System.out.println("[Hilo: " + Thread.currentThread().getName() + "] No hay reservas para procesar.");
         }
     }
 

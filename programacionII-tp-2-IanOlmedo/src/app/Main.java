@@ -12,11 +12,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ServicioNotificaciones notificador = new ServicioNotificacionesEmail();
+        ServicioNotificaciones notificador = new ServicioNotificacionesAsync(new ServicioNotificacionesEmail());  //Para mensajes asincronos
         GestorUsuarios gestorUsuarios = new GestorUsuarios(notificador);
-        GestorRecursos gestorRecursos = new GestorRecursos();
-        GestorPrestamos gestorPrestamos = new GestorPrestamos();
-        GestorReservas gestorReservas = new GestorReservas();
+        GestorRecursos gestorRecursos = new GestorRecursos(notificador);
+        GestorPrestamos gestorPrestamos = new GestorPrestamos(notificador);
+        GestorReservas gestorReservas = new GestorReservas(notificador);
 
         boolean salir = false;
 
@@ -56,6 +56,9 @@ public class Main {
                     BuscadorUsuario.menuBusqueda(gestorUsuarios);
                     break;
                 case 0:
+                    if (notificador instanceof ServicioNotificacionesAsync) {  //matar hilos
+                        ((ServicioNotificacionesAsync) notificador).shutdown();
+                    }
                     salir = true;
                     System.out.println("Saliendo del sistema. ¡Hasta luego!");
                     break;

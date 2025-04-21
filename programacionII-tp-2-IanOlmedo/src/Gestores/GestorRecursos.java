@@ -36,6 +36,15 @@ public class GestorRecursos {
         return resultado;
     }
 
+    public RecursoDigital buscarTituloExacto(String titulo) throws Exception {
+        for (RecursoDigital recurso : recursos) {
+            if (recurso.getTitulo().equalsIgnoreCase(titulo)) {
+                return recurso;
+            }
+        }
+        throw new Exception("Recurso con título \"" + titulo + "\" no encontrado.");
+    }
+
     public List<RecursoDigital> filtrarPorCategoria(Enum categoria) throws RecursoNoDisponibleException {
         List<RecursoDigital> resultado = recursos.stream()
                 .filter(r -> r.getCategoria() == categoria)

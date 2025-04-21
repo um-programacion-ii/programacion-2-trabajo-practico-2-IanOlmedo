@@ -1,7 +1,7 @@
 package Modelo;
 import Modelo.RecursoDigital;
 
-public class Revista implements RecursoDigital {
+public class Revista extends RecursoDigitalBase {
 
     private String titulo;
     private String autor;

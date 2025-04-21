@@ -2,8 +2,9 @@ package Modelo;
 import Modelo.RecursoDigital;
 import Modelo.Prestable;
 import Modelo.Renovable;
+import Modelo.RecursoDigitalBase;
 
-public class Libro implements RecursoDigital, Prestable, Renovable{
+public class Libro extends RecursoDigitalBase implements Prestable, Renovable{
     private String titulo;
     private String autor;
     private int paginas;

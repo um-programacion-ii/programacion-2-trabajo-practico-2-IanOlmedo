@@ -1,7 +1,7 @@
 package Modelo;
 import Modelo.RecursoDigital;
 
-public class Audiolibro implements RecursoDigital{
+public class Audiolibro extends RecursoDigitalBase{
     private String titulo;
     private String autor;
     private int duracionMinutos;

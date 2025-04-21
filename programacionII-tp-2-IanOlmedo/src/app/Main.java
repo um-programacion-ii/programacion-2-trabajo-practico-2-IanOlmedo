@@ -1,11 +1,13 @@
 package app;
 
+import Gestores.GestorPrestamos;
 import Gestores.GestorRecursos;
 import consola.BuscadorRecursos;
 import consola.BuscadorUsuario;
 import consola.Consola;
 import Gestores.GestorUsuarios;
 import Modelo.*;
+import consola.MenuPrestamos;
 
 
 public class Main {
@@ -15,6 +17,7 @@ public class Main {
         ServicioNotificaciones notificador = new ServicioNotificacionesEmail();
         GestorUsuarios gestorUsuarios = new GestorUsuarios(notificador);
         GestorRecursos gestorRecursos = new GestorRecursos();
+        GestorPrestamos gestorPrestamos = new GestorPrestamos();
 
         boolean salir = false;
 
@@ -22,6 +25,7 @@ public class Main {
             System.out.println("\n--- MENÚ PRINCIPAL ---");
             System.out.println("1. Registrar nuevo usuario");
             System.out.println("2. Registrar nuevo recurso digital");
+            System.out.println("3. Ir a menu de prestamos");
             System.out.println("3. Gestionar recursos");
             System.out.println("4. Buscar Usuario");
             System.out.println("0. Salir");
@@ -40,9 +44,12 @@ public class Main {
                     }
                     break;
                 case 3:
-                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    MenuPrestamos.mostrarMenu(gestorPrestamos, gestorUsuarios, gestorRecursos);
                     break;
                 case 4:
+                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    break;
+                case 5:
                     BuscadorUsuario.menuBusqueda(gestorUsuarios);
                     break;
                 case 0:

@@ -2,33 +2,32 @@ package Gestores;
 import java.util.ArrayList;
 import Modelo.Usuario;
 import Modelo.ServicioNotificaciones;
+import java.util.Map;
+import java.util.HashMap;
 
 
 public class GestorUsuarios {
-    private ArrayList<Usuario> usuarios = new ArrayList<>();
+    private Map<String, Usuario> usuarios;
     private ServicioNotificaciones notificador;
 
     public GestorUsuarios(ServicioNotificaciones notificador){
-        this.usuarios = new ArrayList<>();
+        this.usuarios = new HashMap<>();
         this.notificador = notificador;
     }
 
     public void agregarUsuario(Usuario usuario){
-        usuarios.add(usuario);
+        usuarios.put(usuario.getEmail(), usuario);
         notificador.notificar("Usuario agregado: "+usuario.getNombre());
     }
 
     public void listarUsuarios(){
-        for (Usuario u : usuarios){
-            System.out.println("ID: " + u.getId() + " | Nombre: " + u.getNombre() + " | Email: " + u.getEmail());
+        for (Usuario u : usuarios.values()){
+            System.out.println(u);
         }
     }
 
-    public Usuario buscarPorId(int id){
-        for(Usuario u : usuarios){
-            if (u.getId() == id) return u;
-        }
-        return null;
+    public Usuario buscarPorEmail(String email){
+        return usuarios.get(email);
     }
 
 

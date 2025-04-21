@@ -12,6 +12,7 @@ public class GestorPrestamos {
     private ServicioNotificaciones notificador;
     private Map<RecursoDigital, Integer> prestamosPorRecurso;
     private Map<Usuario, Integer> contadorUsuariosActivos;
+    private Map<CategoriaRecurso, Integer> prestamosPorCategoria;
 
 
     public GestorPrestamos(ServicioNotificaciones notificador){
@@ -19,6 +20,7 @@ public class GestorPrestamos {
         this.prestamos = new ArrayList<>();
         this.prestamosPorRecurso = new HashMap<>();
         this.contadorUsuariosActivos = new HashMap<>();
+        this.prestamosPorCategoria = new HashMap<>();
     }
 
     public void realizarPrestamo(Usuario usuario, RecursoDigital recurso) throws Exception {
@@ -38,6 +40,10 @@ public class GestorPrestamos {
             prestamosPorRecurso.merge(recurso, 1, Integer::sum);
             // Y aca el contador de actividad
             contadorUsuariosActivos.put(usuario, contadorUsuariosActivos.getOrDefault(usuario, 0) + 1);
+
+            //Contador de veces por categoria
+            CategoriaRecurso categoria = recurso.getCategoria();
+            prestamosPorCategoria.put(categoria, prestamosPorCategoria.getOrDefault(categoria, 0) + 1);
 
             System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Préstamo realizado: " + recurso.getTitulo() + " a " + usuario.getNombre());
             notificador.notificar("Se le realizo el prestamo de "+recurso.getTitulo()+ " a "+usuario.getNombre());
@@ -83,5 +89,24 @@ public class GestorPrestamos {
                     .forEach(e -> System.out.println(
                             e.getKey().getNombre() + " - Préstamos: " + e.getValue()));
 
+    }
+
+    public void mostrarEstadisticasPorCategoria() {
+        System.out.println("--- Estadísticas por Categoría ---");
+        for (Map.Entry<CategoriaRecurso, Integer> entry : prestamosPorCategoria.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " préstamos");
+        }
+    }
+
+    public Map<RecursoDigital, Integer> getPrestamosPorRecurso() {
+        return prestamosPorRecurso;
+    }
+
+    public Map<Usuario, Integer> getContadorUsuariosActivos() {
+        return contadorUsuariosActivos;
+    }
+
+    public Map<CategoriaRecurso, Integer> getPrestamosPorCategoria() {
+        return prestamosPorCategoria;
     }
 }

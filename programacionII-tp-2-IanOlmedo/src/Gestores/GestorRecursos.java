@@ -6,16 +6,24 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import Modelo.ServicioNotificaciones;
+import Modelo.ServicioNotificacionesAsync;
+
 
 public class GestorRecursos {
     private ArrayList<RecursoDigital> recursos;
+    private ServicioNotificaciones notificador;
 
-    public GestorRecursos(){
-        recursos = new ArrayList<>();
+    public GestorRecursos(ServicioNotificaciones notificador){
+        this.recursos = new ArrayList<>();
+        this.notificador = notificador;
+
     }
 
     public void agregarRecurso(RecursoDigital recurso) {
         recursos.add(recurso);
+        notificador.notificar("Recurso agregado: "+recurso.getTitulo()+", que pertenece a la categoria "+recurso.getCategoria());
+
     }
 
     public void listarRecursos() {

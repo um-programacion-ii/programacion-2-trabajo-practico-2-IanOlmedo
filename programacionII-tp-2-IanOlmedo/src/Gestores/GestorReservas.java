@@ -8,12 +8,18 @@ import java.util.*;
 
 public class GestorReservas {
     private Map<RecursoDigital, BlockingQueue<Reserva>> reservasPorRecurso = new HashMap<>();
+    private ServicioNotificaciones notificador;
+
+    public GestorReservas(ServicioNotificaciones notificador) {
+        this.reservasPorRecurso = new HashMap<>();
+        this.notificador = notificador;
+    }
 
     public void reservarRecurso(Usuario usuario, RecursoDigital recurso) {
         reservasPorRecurso.putIfAbsent(recurso, new LinkedBlockingQueue<>());  // ayudo IA
         Reserva reserva = new Reserva(usuario, recurso);
         reservasPorRecurso.get(recurso).add(reserva);
-        System.out.println("Reserva registrada para " + recurso.getTitulo() + " por " + usuario.getNombre());
+        notificador.notificar("Nueva reserva para '" + recurso.getTitulo() + "' por el usuario " + usuario.getNombre());
     }
 
     public Reserva obtenerProximaReserva(RecursoDigital recurso) {
@@ -29,7 +35,7 @@ public class GestorReservas {
         if (cola != null && !cola.isEmpty()) {
             Reserva reserva = cola.poll(); // saca al primero
             recurso.setEstado(EstadoRecurso.RESERVADO);
-            System.out.println("Reserva procesada: " + reserva);
+            notificador.notificar("Reserva procesada: " + reserva);
         }
     }
 

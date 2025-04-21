@@ -5,11 +5,13 @@ public class Audiolibro extends RecursoDigitalBase{
     private String titulo;
     private String autor;
     private int duracionMinutos;
+    private final CategoriaRecurso categoria = CategoriaRecurso.AUDIOLIBRO;
 
     public Audiolibro(String titulo, String autor, int duracionMinutos) {
         this.titulo = titulo;
         this.autor = autor;
         this.duracionMinutos = duracionMinutos;
+
     }
 
     @Override
@@ -26,7 +28,7 @@ public class Audiolibro extends RecursoDigitalBase{
         return autor;
     }
 
-    private final CategoriaRecurso categoria = CategoriaRecurso.AUDIOLIBRO;
+
 
     @Override
     public CategoriaRecurso getCategoria() {

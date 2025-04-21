@@ -1,10 +1,18 @@
 package Gestores;
 import Modelo.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
 public class GestorPrestamos {
     private List<Prestamo> prestamos = new ArrayList<>();
+    private ServicioNotificaciones notificador;
+
+    public GestorPrestamos(ServicioNotificaciones notificador){
+        this.notificador = notificador;
+        this.prestamos = new ArrayList<>();
+    }
 
     public void realizarPrestamo(Usuario usuario, RecursoDigital recurso) throws Exception {
         if (recurso.getEstado() != EstadoRecurso.DISPONIBLE) {
@@ -14,6 +22,7 @@ public class GestorPrestamos {
         Prestamo nuevoPrestamo = new Prestamo(usuario, recurso);
         prestamos.add(nuevoPrestamo);
         recurso.setEstado(EstadoRecurso.PRESTADO);
+        notificador.notificar("Se le realizo el prestamo de "+recurso.getTitulo()+ " a "+usuario.getNombre());
     }
 
     public void devolverRecurso(RecursoDigital recurso) throws Exception {
@@ -24,6 +33,8 @@ public class GestorPrestamos {
 
         prestamo.registrarDevolucion();
         recurso.setEstado(EstadoRecurso.DISPONIBLE);
+        notificador.notificar("Se devolvio "+recurso.getCategoria()+" " +recurso.getTitulo());
+
     }
 
     public void listarPrestamos() {

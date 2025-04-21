@@ -28,7 +28,7 @@ public class Main {
             System.out.println("3. Ir a menu de prestamos");
             System.out.println("4. Reservas");
             System.out.println("5. Gestionar recursos");
-            System.out.println("6. Buscar Usuario");
+            System.out.println("6. Menu de usuarios");
             System.out.println("0. Salir");
 
             int opcion = Consola.leerEntero("Seleccione una opción: ");
@@ -54,7 +54,7 @@ public class Main {
                     buscador.menuBusqueda(gestorRecursos);
                     break;
                 case 6:
-                    BuscadorUsuario.menuBusqueda(gestorUsuarios);
+                    BuscadorUsuario.menuBusqueda(gestorUsuarios, gestorPrestamos);
                     break;
                 case 0:
                     if (notificador instanceof ServicioNotificacionesAsync) {  //matar hilos

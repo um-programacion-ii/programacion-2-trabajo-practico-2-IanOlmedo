@@ -24,7 +24,7 @@ public class BuscadorRecursos {
         System.out.println("4. Ver recursos mas prestados");
         int opcion = Consola.leerEntero("Seleccione una opción: ");
 
-        List<RecursoDigital> resultado;
+        List<RecursoDigital> resultado = List.of();
 
         switch (opcion) {
             case 1:

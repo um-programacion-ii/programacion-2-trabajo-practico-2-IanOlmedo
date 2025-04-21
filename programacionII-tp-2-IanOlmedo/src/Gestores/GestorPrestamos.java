@@ -11,11 +11,14 @@ public class GestorPrestamos {
     private List<Prestamo> prestamos;
     private ServicioNotificaciones notificador;
     private Map<RecursoDigital, Integer> prestamosPorRecurso;
+    private Map<Usuario, Integer> contadorUsuariosActivos;
+
 
     public GestorPrestamos(ServicioNotificaciones notificador){
         this.notificador = notificador;
         this.prestamos = new ArrayList<>();
         this.prestamosPorRecurso = new HashMap<>();
+        this.contadorUsuariosActivos = new HashMap<>();
     }
 
     public void realizarPrestamo(Usuario usuario, RecursoDigital recurso) throws Exception {
@@ -31,8 +34,10 @@ public class GestorPrestamos {
             prestamos.add(nuevoPrestamo);
             recurso.setEstado(EstadoRecurso.PRESTADO);
 
-            // ✅ Aca registramos el contador
+            // Aca registramos el contador
             prestamosPorRecurso.merge(recurso, 1, Integer::sum);
+            // Y aca el contador de actividad
+            contadorUsuariosActivos.put(usuario, contadorUsuariosActivos.getOrDefault(usuario, 0) + 1);
 
             System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Préstamo realizado: " + recurso.getTitulo() + " a " + usuario.getNombre());
             notificador.notificar("Se le realizo el prestamo de "+recurso.getTitulo()+ " a "+usuario.getNombre());
@@ -69,5 +74,14 @@ public class GestorPrestamos {
                 .forEach(entry -> {
                     System.out.println(entry.getKey().getTitulo()+ " - Prestamos: "+entry.getValue());
                 });
+    }
+
+    public void mostrarUsuariosMasActivos() {
+            System.out.println("--- Usuarios más activos ---");
+            contadorUsuariosActivos.entrySet().stream()
+                    .sorted((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()))
+                    .forEach(e -> System.out.println(
+                            e.getKey().getNombre() + " - Préstamos: " + e.getValue()));
+
     }
 }

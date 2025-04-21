@@ -16,7 +16,8 @@ public class Main {
         GestorUsuarios gestorUsuarios = new GestorUsuarios(notificador);
         GestorRecursos gestorRecursos = new GestorRecursos(notificador);
         GestorPrestamos gestorPrestamos = new GestorPrestamos(notificador);
-        GestorReservas gestorReservas = new GestorReservas(notificador);
+        GestorReservas gestorReservas = new GestorReservas(notificador, gestorPrestamos);
+        BuscadorRecursos buscador = new BuscadorRecursos(gestorRecursos, gestorPrestamos);
 
         boolean salir = false;
 
@@ -47,10 +48,10 @@ public class Main {
                     MenuPrestamos.mostrarMenu(gestorPrestamos, gestorUsuarios, gestorRecursos);
                     break;
                 case 4:
-                    MenuReservas.mostrarMenu(gestorReservas, gestorUsuarios, gestorRecursos);
+                    MenuReservas.mostrarMenu(gestorReservas, gestorUsuarios, gestorRecursos, gestorPrestamos);
                     break;
                 case 5:
-                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    buscador.menuBusqueda(gestorRecursos);
                     break;
                 case 6:
                     BuscadorUsuario.menuBusqueda(gestorUsuarios);

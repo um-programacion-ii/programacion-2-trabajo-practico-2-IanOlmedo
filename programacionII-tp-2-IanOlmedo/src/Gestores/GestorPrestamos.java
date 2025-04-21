@@ -4,14 +4,18 @@ import Modelo.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.time.LocalDate;
 
 public class GestorPrestamos {
     private List<Prestamo> prestamos;
     private ServicioNotificaciones notificador;
+    private Map<RecursoDigital, Integer> prestamosPorRecurso;
 
     public GestorPrestamos(ServicioNotificaciones notificador){
         this.notificador = notificador;
         this.prestamos = new ArrayList<>();
+        this.prestamosPorRecurso = new HashMap<>();
     }
 
     public void realizarPrestamo(Usuario usuario, RecursoDigital recurso) throws Exception {
@@ -26,6 +30,9 @@ public class GestorPrestamos {
             Prestamo nuevoPrestamo = new Prestamo(usuario, recurso);
             prestamos.add(nuevoPrestamo);
             recurso.setEstado(EstadoRecurso.PRESTADO);
+
+            // ✅ Aca registramos el contador
+            prestamosPorRecurso.merge(recurso, 1, Integer::sum);
 
             System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Préstamo realizado: " + recurso.getTitulo() + " a " + usuario.getNombre());
             notificador.notificar("Se le realizo el prestamo de "+recurso.getTitulo()+ " a "+usuario.getNombre());
@@ -53,5 +60,14 @@ public class GestorPrestamos {
         for (Prestamo p : prestamos) {
             System.out.println(p);
         }
+    }
+
+    public void mostrarRecursosMasPrestados(){
+        System.out.println("-- Los recursos mas prestados --");
+        prestamosPorRecurso.entrySet().stream()
+                .sorted((e1, e2) ->e2.getValue().compareTo(e1.getValue()))
+                .forEach(entry -> {
+                    System.out.println(entry.getKey().getTitulo()+ " - Prestamos: "+entry.getValue());
+                });
     }
 }

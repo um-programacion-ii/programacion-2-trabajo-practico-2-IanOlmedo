@@ -3,15 +3,25 @@ import Excepciones.RecursoNoDisponibleException;
 import Gestores.GestorRecursos;
 import Modelo.RecursoDigital;
 import Modelo.CategoriaRecurso;
+import Gestores.*;
 
 import java.util.List;
 
 public class BuscadorRecursos {
-    public static void menuBusqueda(GestorRecursos gestorRecursos) {
+    private GestorPrestamos gestorPrestamos;
+    private GestorRecursos gestorRecursos;
+
+    public BuscadorRecursos(GestorRecursos gestorRecursos, GestorPrestamos gestorPrestamos){
+        this.gestorPrestamos = gestorPrestamos;
+        this.gestorRecursos = gestorRecursos;
+    }
+
+    public void menuBusqueda(GestorRecursos gestorRecursos) {
         System.out.println("\n--- Búsqueda de Recursos ---");
         System.out.println("1. Buscar por título");
         System.out.println("2. Filtrar por categoría");
         System.out.println("3. Ordenar por autor");
+        System.out.println("4. Ver recursos mas prestados");
         int opcion = Consola.leerEntero("Seleccione una opción: ");
 
         List<RecursoDigital> resultado;
@@ -44,6 +54,9 @@ public class BuscadorRecursos {
 
             case 3:
                 resultado = gestorRecursos.ordenarPorAutor();
+                break;
+            case 4:
+                gestorPrestamos.mostrarRecursosMasPrestados();
                 break;
             default:
                 System.out.println("Opción no válida.");

@@ -5,7 +5,7 @@ import Modelo.*;
 
 public class MenuReservas {
 
-    public static void mostrarMenu(GestorReservas gestorReservas, GestorUsuarios gestorUsuarios, GestorRecursos gestorRecursos) {
+    public static void mostrarMenu(GestorReservas gestorReservas, GestorUsuarios gestorUsuarios, GestorRecursos gestorRecursos, GestorPrestamos gestorPrestamos) {
         boolean volver = false;
 
         while (!volver) {
@@ -25,7 +25,7 @@ public class MenuReservas {
                     verReservas(gestorReservas, gestorRecursos);
                     break;
                 case 3:
-                    procesarSiguienteReserva(gestorReservas, gestorRecursos);
+                    procesarSiguienteReserva(gestorReservas, gestorRecursos, gestorPrestamos);
                     break;
                 case 0:
                     volver = true;
@@ -60,11 +60,11 @@ public class MenuReservas {
         }
     }
 
-    private static void procesarSiguienteReserva(GestorReservas gestorReservas, GestorRecursos gestorRecursos) {
+    private static void procesarSiguienteReserva(GestorReservas gestorReservas, GestorRecursos gestorRecursos, GestorPrestamos gestorPrestamos) {
         String titulo = Consola.leerLinea("Ingrese el título del recurso: ");
         try {
             RecursoDigital recurso = gestorRecursos.buscarTituloExacto(titulo);
-            gestorReservas.procesarReserva(recurso);
+            gestorReservas.procesarReserva(recurso, gestorPrestamos);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

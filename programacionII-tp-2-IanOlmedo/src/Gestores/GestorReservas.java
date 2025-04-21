@@ -4,15 +4,20 @@ import Modelo.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.*;
+import java.time.LocalDate;
+
 
 
 public class GestorReservas {
     private Map<RecursoDigital, BlockingQueue<Reserva>> reservasPorRecurso;
     private ServicioNotificaciones notificador;
+    private GestorPrestamos gestorPrestamos;
 
-    public GestorReservas(ServicioNotificaciones notificador) {
+    public GestorReservas(ServicioNotificaciones notificador, GestorPrestamos gestorPrestamos) {
         this.reservasPorRecurso = new HashMap<>();
         this.notificador = notificador;
+        this.gestorPrestamos = gestorPrestamos;
+
     }
 
     public void reservarRecurso(Usuario usuario, RecursoDigital recurso) {
@@ -31,13 +36,22 @@ public class GestorReservas {
         return null;
     }
 
-    public void procesarReserva(RecursoDigital recurso) {
+    public void procesarReserva(RecursoDigital recurso, GestorPrestamos gestorPrestamos) {  //varios errores corregidos(ayudo gpt)
         BlockingQueue<Reserva> cola = reservasPorRecurso.get(recurso);
         if (cola != null && !cola.isEmpty()) {
-            Reserva reserva = cola.poll();
-            recurso.setEstado(EstadoRecurso.RESERVADO);
-            System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Reserva procesada: " + reserva);
-            notificador.notificar("Reserva procesada: " + reserva);
+            Reserva reserva = cola.peek(); // NO eliminamos aún
+
+            try {
+                gestorPrestamos.realizarPrestamo(reserva.getUsuario(), recurso);
+                cola.poll(); // Solo eliminamos si el préstamo se realizó con éxito
+
+                System.out.println("[Hilo: " + Thread.currentThread().getName() + "] Reserva procesada: " + reserva);
+                notificador.notificar("Reserva procesada: " + reserva);
+
+            } catch (Exception e) {
+                System.out.println("Error al procesar la reserva: " + e.getMessage());
+            }
+
         } else {
             System.out.println("[Hilo: " + Thread.currentThread().getName() + "] No hay reservas para procesar.");
         }

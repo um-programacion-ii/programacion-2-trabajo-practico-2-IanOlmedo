@@ -6,7 +6,7 @@ import Modelo.ServicioNotificaciones;
 
 public class ServicioNotificacionesAsync implements ServicioNotificaciones {
     private final ServicioNotificaciones decorado;
-    private final ExecutorService executor = Executors.newFixedThreadPool(100); //2 hilos
+    private final ExecutorService executor = Executors.newFixedThreadPool(10000); //10000 hilos
 
     public ServicioNotificacionesAsync(ServicioNotificaciones decorado){
         this.decorado = decorado;

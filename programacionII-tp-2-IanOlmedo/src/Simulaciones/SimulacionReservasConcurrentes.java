@@ -13,7 +13,7 @@ public class SimulacionReservasConcurrentes {
 
         ServicioNotificaciones notificador = new ServicioNotificacionesAsync(new ServicioNotificacionesEmail());
         GestorPrestamos gestorPrestamos = new GestorPrestamos(notificador);
-        GestorReservas gestorReservas = new GestorReservas(notificador);
+        GestorReservas gestorReservas = new GestorReservas(notificador, gestorPrestamos);
 
         // Paso 1: Ana realiza un préstamo
         new Thread(() -> {
@@ -44,7 +44,7 @@ public class SimulacionReservasConcurrentes {
                 gestorPrestamos.devolverRecurso(recurso);
 
                 // Paso 4: Procesar la reserva del primero en la lista (Luis)
-                gestorReservas.procesarReserva(recurso);
+                gestorReservas.procesarReserva(recurso, gestorPrestamos);
 
                 // Paso 5: El usuario al que se le asignó la reserva hace el préstamo
                 gestorPrestamos.realizarPrestamo(usuario2, recurso);

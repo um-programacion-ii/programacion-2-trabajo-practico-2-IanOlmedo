@@ -16,7 +16,9 @@ public class Main {
         GestorUsuarios gestorUsuarios = new GestorUsuarios(notificador);
         GestorRecursos gestorRecursos = new GestorRecursos(notificador);
         GestorPrestamos gestorPrestamos = new GestorPrestamos(notificador);
-        GestorReservas gestorReservas = new GestorReservas(notificador);
+        GestorReservas gestorReservas = new GestorReservas(notificador, gestorPrestamos);
+        BuscadorRecursos buscador = new BuscadorRecursos(gestorRecursos, gestorPrestamos);
+
 
         boolean salir = false;
 
@@ -27,7 +29,8 @@ public class Main {
             System.out.println("3. Ir a menu de prestamos");
             System.out.println("4. Reservas");
             System.out.println("5. Gestionar recursos");
-            System.out.println("6. Buscar Usuario");
+            System.out.println("6. Menu de usuarios");
+            System.out.println("7. Reportes");
             System.out.println("0. Salir");
 
             int opcion = Consola.leerEntero("Seleccione una opción: ");
@@ -47,13 +50,16 @@ public class Main {
                     MenuPrestamos.mostrarMenu(gestorPrestamos, gestorUsuarios, gestorRecursos);
                     break;
                 case 4:
-                    MenuReservas.mostrarMenu(gestorReservas, gestorUsuarios, gestorRecursos);
+                    MenuReservas.mostrarMenu(gestorReservas, gestorUsuarios, gestorRecursos, gestorPrestamos);
                     break;
                 case 5:
-                    BuscadorRecursos.menuBusqueda(gestorRecursos);
+                    buscador.menuBusqueda(gestorRecursos);
                     break;
                 case 6:
-                    BuscadorUsuario.menuBusqueda(gestorUsuarios);
+                    BuscadorUsuario.menuBusqueda(gestorUsuarios, gestorPrestamos);
+                    break;
+                case 7:
+                    BuscadorReportes.menuBusqueda(gestorUsuarios, gestorPrestamos);
                     break;
                 case 0:
                     if (notificador instanceof ServicioNotificacionesAsync) {  //matar hilos
@@ -71,7 +77,7 @@ public class Main {
     }
 
     private static Usuario crearUsuarioDesdeConsola() {
-        int id = Consola.leerEntero("Ingrese ID: ");
+        int id = Consola.leerEntero("Ingrese DNI: ");
         String nombre = Consola.leerLinea("Ingrese nombre del usuario: ");
         String email = Consola.leerLinea("Ingrese email: ");
         return new Usuario(id, nombre, email);

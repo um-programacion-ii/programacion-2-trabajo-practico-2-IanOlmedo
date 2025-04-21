@@ -1,4 +1,5 @@
 package consola;
+import Excepciones.RecursoNoDisponibleException;
 import Gestores.GestorRecursos;
 import Modelo.RecursoDigital;
 import Modelo.CategoriaRecurso;
@@ -18,7 +19,12 @@ public class BuscadorRecursos {
         switch (opcion) {
             case 1:
                 String titulo = Consola.leerLinea("Ingrese parte del título a buscar: ");
-                resultado = gestorRecursos.buscarPorTitulo(titulo);
+                try {
+                    resultado = gestorRecursos.buscarPorTitulo(titulo);
+                } catch (RecursoNoDisponibleException e) {
+                    System.out.println(e.getMessage());
+                    return;
+                }
                 break;
             case 2:
                 System.out.println("Categorías disponibles:");
@@ -30,8 +36,8 @@ public class BuscadorRecursos {
                 try {
                     CategoriaRecurso categoriaEnum = CategoriaRecurso.valueOf(categoriaInput.toUpperCase());
                     resultado = gestorRecursos.filtrarPorCategoria(categoriaEnum);
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Categoría no válida.");
+                } catch (RecursoNoDisponibleException e) {
+                    System.out.println(e.getMessage());
                     return;
                 }
                 break;

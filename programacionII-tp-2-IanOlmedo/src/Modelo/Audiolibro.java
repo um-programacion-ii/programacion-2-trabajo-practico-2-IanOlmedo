@@ -26,4 +26,11 @@ public class Audiolibro implements RecursoDigital{
         return autor;
     }
 
+    private final CategoriaRecurso categoria = CategoriaRecurso.AUDIOLIBRO;
+
+    @Override
+    public CategoriaRecurso getCategoria() {
+        return categoria;
+    }
+
 }

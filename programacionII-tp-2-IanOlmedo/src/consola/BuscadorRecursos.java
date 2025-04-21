@@ -1,6 +1,7 @@
 package consola;
 import Gestores.GestorRecursos;
 import Modelo.RecursoDigital;
+import Modelo.CategoriaRecurso;
 
 import java.util.List;
 
@@ -20,9 +21,21 @@ public class BuscadorRecursos {
                 resultado = gestorRecursos.buscarPorTitulo(titulo);
                 break;
             case 2:
-                String categoria = Consola.leerLinea("Ingrese categoría (Libro, Revista, Audiolibro): ");
-                resultado = gestorRecursos.filtrarPorCategoria(categoria);
+                System.out.println("Categorías disponibles:");
+                for (CategoriaRecurso cat : CategoriaRecurso.values()) {
+                    System.out.println("- " + cat);
+                }
+                String categoriaInput = Consola.leerLinea("Ingrese una categoría: ");
+
+                try {
+                    CategoriaRecurso categoriaEnum = CategoriaRecurso.valueOf(categoriaInput.toUpperCase());
+                    resultado = gestorRecursos.filtrarPorCategoria(categoriaEnum);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Categoría no válida.");
+                    return;
+                }
                 break;
+
             case 3:
                 resultado = gestorRecursos.ordenarPorAutor();
                 break;

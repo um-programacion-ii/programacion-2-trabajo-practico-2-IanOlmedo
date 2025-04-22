@@ -40,7 +40,8 @@ public class GestorUsuarios {
     }
 
     public List<Usuario> getTodosLosUsuarios() {
-        return usuarios.values().stream().collect(Collectors.toList());
+        return usuarios.values().stream().
+                collect(Collectors.toList());
     }
 }
 

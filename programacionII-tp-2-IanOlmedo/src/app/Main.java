@@ -5,6 +5,7 @@ import Gestores.GestorRecursos;
 import Gestores.GestorReservas;
 import consola.*;
 import Gestores.GestorUsuarios;
+import Gestores.GestorRecordatorios;
 import Modelo.*;
 import Alertas.*;
 
@@ -21,7 +22,9 @@ public class Main {
         BuscadorRecursos buscador = new BuscadorRecursos(gestorRecursos, gestorPrestamos);
         AlertaVencimiento alertaVencimiento = new AlertaVencimiento(gestorPrestamos, gestorReservas);
         AlertaDisponibilidad alertaDisponibilidad = new AlertaDisponibilidad(gestorReservas, gestorPrestamos);
+        GestorRecordatorios gestorRecordatorios = new GestorRecordatorios();
 
+        gestorRecordatorios.enviarRecordatorioGeneral("El sitio se actualizará el dia 20 de mayo", NivelUrgencia.INFO, gestorUsuarios.getTodosLosUsuarios());
 
         boolean salir = false;
 
@@ -37,6 +40,7 @@ public class Main {
             System.out.println("5. Gestionar recursos");
             System.out.println("6. Menu de usuarios");
             System.out.println("7. Reportes");
+            System.out.println("8. Ver historial de recordatorios");
             System.out.println("0. Salir");
 
             int opcion = Consola.leerEntero("Seleccione una opción: ");
@@ -45,6 +49,16 @@ public class Main {
                 case 1:
                     Usuario nuevoUsuario = crearUsuarioDesdeConsola();
                     gestorUsuarios.agregarUsuario(nuevoUsuario);
+
+                    // Enviar recordatorio al nuevo usuario
+                    gestorRecordatorios.enviarRecordatorio(
+                            "¡Ya estás registrado! Recordá que podés realizar préstamos de recursos disponibles.",
+                            NivelUrgencia.INFO,
+                            nuevoUsuario,
+                            null
+                    );
+                    System.out.println("Libros que podés buscar ya! ");
+                    gestorRecursos.listarRecursos();
                     break;
                 case 2:
                     RecursoDigital nuevoRecurso = crearRecursoDesdeConsola();
@@ -66,6 +80,9 @@ public class Main {
                     break;
                 case 7:
                     BuscadorReportes.menuBusqueda(gestorUsuarios, gestorPrestamos);
+                    break;
+                case 8:
+                    gestorRecordatorios.mostrarHistorial();
                     break;
                 case 0:
                     if (notificador instanceof ServicioNotificacionesAsync) {  //matar hilos
@@ -90,7 +107,7 @@ public class Main {
     }
 
     private static RecursoDigital crearRecursoDesdeConsola() {
-        System.out.println("Seleccione tipo de recurso digital:");
+        System.out.println("\nSeleccione tipo de recurso digital:");
         System.out.println("1- Libro");
         System.out.println("2- Revista");
         System.out.println("3- Audiolibro");

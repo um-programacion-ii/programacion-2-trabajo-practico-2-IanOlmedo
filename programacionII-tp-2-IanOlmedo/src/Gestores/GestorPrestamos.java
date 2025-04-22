@@ -105,6 +105,22 @@ public class GestorPrestamos {
         }
     }
 
+
+    public List<RecursoDigital> obtenerRecursosMasPrestados() {
+        return prestamosPorRecurso.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+    public List<Usuario> obtenerUsuariosMasActivos() {
+        return contadorUsuariosActivos.entrySet().stream()
+                .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+
     public Map<RecursoDigital, Integer> getPrestamosPorRecurso() {
         return prestamosPorRecurso;
     }

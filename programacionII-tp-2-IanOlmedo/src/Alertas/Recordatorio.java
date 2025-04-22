@@ -42,6 +42,18 @@ public class Recordatorio {
 
     @Override
     public String toString() {
-        return "[" + urgencia + "] " + mensaje + " (para " + usuario.getNombre() + ", recurso: " + recurso.getTitulo() + " - " + fecha + ")";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Recordatorio [").append(urgencia).append("] ");
+        sb.append(mensaje);
+
+        if (usuario != null) {
+            sb.append(" | Usuario: ").append(usuario.getNombre());
+        }
+
+        if (recurso != null) {
+            sb.append(" | Recurso: ").append(recurso.getTitulo());
+        }
+
+        return sb.toString();
     }
 }

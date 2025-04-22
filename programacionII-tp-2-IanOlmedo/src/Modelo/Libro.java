@@ -58,7 +58,7 @@ public class Libro extends RecursoDigitalBase implements Prestable, Renovable{
 
     @Override
     public void mostrarInformacion(){
-        System.out.println("titulo del libro: "+ titulo+" | autor del libro: "+autor+" | Cantidad de paginas: "+paginas);
+        System.out.println("Titulo del libro: "+ titulo+" | Autor del libro: "+autor+" | Cantidad de paginas: "+paginas);
     }
     @Override
     public String getTitulo(){

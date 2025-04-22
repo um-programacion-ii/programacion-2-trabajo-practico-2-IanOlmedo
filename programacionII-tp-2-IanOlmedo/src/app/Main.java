@@ -1,11 +1,7 @@
 package app;
 
-import Gestores.GestorPrestamos;
-import Gestores.GestorRecursos;
-import Gestores.GestorReservas;
+import Gestores.*;
 import consola.*;
-import Gestores.GestorUsuarios;
-import Gestores.GestorRecordatorios;
 import Modelo.*;
 import Alertas.*;
 
@@ -23,6 +19,7 @@ public class Main {
         AlertaVencimiento alertaVencimiento = new AlertaVencimiento(gestorPrestamos, gestorReservas);
         AlertaDisponibilidad alertaDisponibilidad = new AlertaDisponibilidad(gestorReservas, gestorPrestamos);
         GestorRecordatorios gestorRecordatorios = new GestorRecordatorios();
+        GestorReportes gestorReportes = new GestorReportes(gestorPrestamos, gestorUsuarios);
 
         gestorRecordatorios.enviarRecordatorioGeneral("El sitio se actualizará el dia 20 de mayo", NivelUrgencia.INFO, gestorUsuarios.getTodosLosUsuarios());
 
@@ -33,13 +30,13 @@ public class Main {
             alertaDisponibilidad.verificarDisponibilidad();
 
             System.out.println("\n--- MENÚ PRINCIPAL ---");
-            System.out.println("1. Registrar nuevo usuario");
-            System.out.println("2. Registrar nuevo recurso digital");
-            System.out.println("3. Ir a menu de prestamos");
-            System.out.println("4. Reservas");
-            System.out.println("5. Gestionar recursos");
+            System.out.println("1. Registrar nuevo Usuario");
+            System.out.println("2. Registrar nuevo Recurso");
+            System.out.println("3. Ir a menu de Rrestamos");
+            System.out.println("4. Ir a menu de Reservas");
+            System.out.println("5. Gestionar Recursos");
             System.out.println("6. Menu de usuarios");
-            System.out.println("7. Reportes");
+            System.out.println("7. Ver Reportes");
             System.out.println("8. Ver historial de recordatorios");
             System.out.println("0. Salir");
 
@@ -79,7 +76,7 @@ public class Main {
                     BuscadorUsuario.menuBusqueda(gestorUsuarios, gestorPrestamos);
                     break;
                 case 7:
-                    BuscadorReportes.menuBusqueda(gestorUsuarios, gestorPrestamos);
+                    BuscadorReportes.menuBusqueda(gestorUsuarios, gestorPrestamos, gestorReportes);
                     break;
                 case 8:
                     gestorRecordatorios.mostrarHistorial();
@@ -89,7 +86,9 @@ public class Main {
                         ((ServicioNotificacionesAsync) notificador).shutdown();
                     }
                     salir = true;
+
                     System.out.println("Saliendo del sistema. ¡Hasta luego!");
+                    gestorReportes.apagar();
                     break;
                 default:
                     System.out.println("Opción no válida.");
@@ -100,6 +99,7 @@ public class Main {
     }
 
     private static Usuario crearUsuarioDesdeConsola() {
+        System.out.println("\n--Nuevo Usuario--");
         int id = Consola.leerEntero("Ingrese DNI: ");
         String nombre = Consola.leerLinea("Ingrese nombre del usuario: ");
         String email = Consola.leerLinea("Ingrese email: ");
@@ -107,10 +107,11 @@ public class Main {
     }
 
     private static RecursoDigital crearRecursoDesdeConsola() {
-        System.out.println("\nSeleccione tipo de recurso digital:");
-        System.out.println("1- Libro");
-        System.out.println("2- Revista");
-        System.out.println("3- Audiolibro");
+        System.out.println("\n--Nuevo Recurso--");
+        System.out.println("1. Libro");
+        System.out.println("2. Revista");
+        System.out.println("3. Audiolibro");
+        System.out.println("0. Volver");
 
         int opcion = Consola.leerEntero("Opción: ");
         String titulo = Consola.leerLinea("Título: ");

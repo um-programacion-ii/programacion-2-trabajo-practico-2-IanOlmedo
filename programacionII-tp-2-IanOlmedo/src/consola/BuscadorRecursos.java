@@ -17,56 +17,63 @@ public class BuscadorRecursos {
     }
 
     public void menuBusqueda(GestorRecursos gestorRecursos) {
-        System.out.println("\n--- Búsqueda de Recursos ---");
-        System.out.println("1. Buscar por título");
-        System.out.println("2. Filtrar por categoría");
-        System.out.println("3. Ordenar por autor");
-        System.out.println("4. Ver recursos mas prestados");
-        int opcion = Consola.leerEntero("Seleccione una opción: ");
+        boolean volver = false;
 
-        List<RecursoDigital> resultado = List.of();
+        while(!volver) {
+            System.out.println("\n--- Búsqueda de Recursos ---");
+            System.out.println("1. Buscar por título");
+            System.out.println("2. Filtrar por categoría");
+            System.out.println("3. Ordenar por autor");
+            System.out.println("4. Ver recursos mas prestados");
+            System.out.println("0. Volver");
+            int opcion = Consola.leerEntero("Seleccione una opción: ");
 
-        switch (opcion) {
-            case 1:
-                String titulo = Consola.leerLinea("Ingrese parte del título a buscar: ");
-                try {
-                    resultado = gestorRecursos.buscarPorTitulo(titulo);
-                } catch (RecursoNoDisponibleException e) {
-                    System.out.println(e.getMessage());
+            List<RecursoDigital> resultado = List.of();
+
+            switch (opcion) {
+                case 1:
+                    String titulo = Consola.leerLinea("Ingrese parte del título a buscar: ");
+                    try {
+                        resultado = gestorRecursos.buscarPorTitulo(titulo);
+                    } catch (RecursoNoDisponibleException e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    }
+                    break;
+                case 2:
+                    System.out.println("Categorías disponibles:");
+                    for (CategoriaRecurso cat : CategoriaRecurso.values()) {
+                        System.out.println("- " + cat);
+                    }
+                    String categoriaInput = Consola.leerLinea("Ingrese una categoría: ");
+
+                    try {
+                        CategoriaRecurso categoriaEnum = CategoriaRecurso.valueOf(categoriaInput.toUpperCase());
+                        resultado = gestorRecursos.filtrarPorCategoria(categoriaEnum);
+                    } catch (RecursoNoDisponibleException e) {
+                        System.out.println(e.getMessage());
+                        return;
+                    }
+                    break;
+
+                case 3:
+                    resultado = gestorRecursos.ordenarPorAutor();
+                    break;
+                case 4:
+                    gestorPrestamos.mostrarRecursosMasPrestados();
+                    break;
+                case 0:
+                    volver = true;
+                default:
+                    System.out.println("Opción no válida.");
                     return;
-                }
-                break;
-            case 2:
-                System.out.println("Categorías disponibles:");
-                for (CategoriaRecurso cat : CategoriaRecurso.values()) {
-                    System.out.println("- " + cat);
-                }
-                String categoriaInput = Consola.leerLinea("Ingrese una categoría: ");
+            }
 
-                try {
-                    CategoriaRecurso categoriaEnum = CategoriaRecurso.valueOf(categoriaInput.toUpperCase());
-                    resultado = gestorRecursos.filtrarPorCategoria(categoriaEnum);
-                } catch (RecursoNoDisponibleException e) {
-                    System.out.println(e.getMessage());
-                    return;
-                }
-                break;
-
-            case 3:
-                resultado = gestorRecursos.ordenarPorAutor();
-                break;
-            case 4:
-                gestorPrestamos.mostrarRecursosMasPrestados();
-                break;
-            default:
-                System.out.println("Opción no válida.");
-                return;
-        }
-
-        if (resultado.isEmpty()) {
-            System.out.println("No se encontraron resultados.");
-        } else {
-            resultado.forEach(RecursoDigital::mostrarInformacion);
+            if (resultado.isEmpty()) {
+                System.out.println("No se encontraron resultados.");
+            } else {
+                resultado.forEach(RecursoDigital::mostrarInformacion);
+            }
         }
     }
 }

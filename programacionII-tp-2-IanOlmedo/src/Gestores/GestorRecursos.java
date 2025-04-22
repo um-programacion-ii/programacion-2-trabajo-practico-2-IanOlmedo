@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import Modelo.EstadoRecurso;
 
 import Modelo.ServicioNotificaciones;
 import Modelo.ServicioNotificacionesAsync;
@@ -27,10 +28,11 @@ public class GestorRecursos {
     }
 
     public void listarRecursos() {
-        for (RecursoDigital r : recursos) {
-            r.mostrarInformacion();
-        }
+        recursos.stream()
+                .filter(r -> r.getEstado() == EstadoRecurso.DISPONIBLE)
+                .forEach(RecursoDigital::mostrarInformacion);
     }
+
 
     public List<RecursoDigital> buscarPorTitulo(String titulo) throws RecursoNoDisponibleException {
         List<RecursoDigital> resultado = recursos.stream()

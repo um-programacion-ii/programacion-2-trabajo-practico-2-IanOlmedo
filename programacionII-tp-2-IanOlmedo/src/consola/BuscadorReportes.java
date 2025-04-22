@@ -1,6 +1,7 @@
 package consola;
 
 import Gestores.GestorPrestamos;
+import Gestores.GestorReportes;
 import Gestores.GestorUsuarios;
 import Modelo.RecursoDigital;
 import Modelo.Usuario;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public class BuscadorReportes {
 
-    public static void menuBusqueda(GestorUsuarios gestorUsuarios, GestorPrestamos gestorPrestamos) {
+    public static void menuBusqueda(GestorUsuarios gestorUsuarios, GestorPrestamos gestorPrestamos, GestorReportes gestorReportes) {
         boolean volver = false;
 
         while (!volver) {
@@ -26,21 +27,21 @@ public class BuscadorReportes {
                     if (gestorPrestamos.getPrestamosPorRecurso().isEmpty()) {
                         System.out.println("Hasta el momento no hay recursos prestados.");
                     } else {
-                        gestorPrestamos.mostrarRecursosMasPrestados();
+                        gestorReportes.generarReporteMasPrestadosAsync();
                     }
                 }
                 case 2 -> {
                     if (gestorPrestamos.getContadorUsuariosActivos().isEmpty()) {
                         System.out.println("Hasta el momento no hay usuarios registrados con préstamos.");
                     } else {
-                        gestorPrestamos.mostrarUsuariosMasActivos();
+                        gestorReportes.generarReporteUsuariosActivosAsync();
                     }
                 }
                 case 3 -> {
                     if (gestorPrestamos.getPrestamosPorCategoria().isEmpty()) {
                         System.out.println("Hasta el momento no hay estadísticas por categorías.");
                     } else {
-                        gestorPrestamos.mostrarEstadisticasPorCategoria();
+                        gestorReportes.generarReporteEstadisticasPorCategoriaAsync();
                     }
                 }
                 case 0 -> volver = true;

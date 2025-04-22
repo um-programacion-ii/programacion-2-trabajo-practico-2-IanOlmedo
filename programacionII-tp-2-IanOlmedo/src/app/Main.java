@@ -20,12 +20,14 @@ public class Main {
         GestorReservas gestorReservas = new GestorReservas(notificador, gestorPrestamos);
         BuscadorRecursos buscador = new BuscadorRecursos(gestorRecursos, gestorPrestamos);
         AlertaVencimiento alertaVencimiento = new AlertaVencimiento(gestorPrestamos, gestorReservas);
+        AlertaDisponibilidad alertaDisponibilidad = new AlertaDisponibilidad(gestorReservas, gestorPrestamos);
 
 
         boolean salir = false;
 
         while (!salir) {
             alertaVencimiento.verificarAlertas();
+            alertaDisponibilidad.verificarDisponibilidad();
 
             System.out.println("\n--- MENÚ PRINCIPAL ---");
             System.out.println("1. Registrar nuevo usuario");

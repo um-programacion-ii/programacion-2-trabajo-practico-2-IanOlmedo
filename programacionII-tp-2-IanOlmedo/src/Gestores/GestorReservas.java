@@ -69,4 +69,8 @@ public class GestorReservas {
             System.out.println(r);
         }
     }
+
+    public boolean tieneReservasPendientes(RecursoDigital recurso){
+        return reservasPorRecurso.containsKey(recurso) && !reservasPorRecurso.get(recurso).isEmpty();
+    }
 }

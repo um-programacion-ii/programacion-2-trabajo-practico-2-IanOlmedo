@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 public class GestorPrestamos {
     private List<Prestamo> prestamos;
@@ -71,6 +72,12 @@ public class GestorPrestamos {
         for (Prestamo p : prestamos) {
             System.out.println(p);
         }
+    }
+
+    public List<Prestamo> listarPrestamosActivos() {
+        return prestamos.stream()
+                .filter(p -> !p.estaDevuelto())
+                .collect(Collectors.toList());
     }
 
     public void mostrarRecursosMasPrestados(){

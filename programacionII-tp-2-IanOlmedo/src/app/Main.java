@@ -6,6 +6,7 @@ import Gestores.GestorReservas;
 import consola.*;
 import Gestores.GestorUsuarios;
 import Modelo.*;
+import Alertas.*;
 
 
 public class Main {
@@ -18,11 +19,14 @@ public class Main {
         GestorPrestamos gestorPrestamos = new GestorPrestamos(notificador);
         GestorReservas gestorReservas = new GestorReservas(notificador, gestorPrestamos);
         BuscadorRecursos buscador = new BuscadorRecursos(gestorRecursos, gestorPrestamos);
+        AlertaVencimiento alertaVencimiento = new AlertaVencimiento(gestorPrestamos, gestorReservas);
 
 
         boolean salir = false;
 
         while (!salir) {
+            alertaVencimiento.verificarAlertas();
+
             System.out.println("\n--- MENÚ PRINCIPAL ---");
             System.out.println("1. Registrar nuevo usuario");
             System.out.println("2. Registrar nuevo recurso digital");

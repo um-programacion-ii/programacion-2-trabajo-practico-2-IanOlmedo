@@ -8,6 +8,122 @@ Desarrollar un sistema de gestión de biblioteca digital que implemente los cinc
 ## 👨‍🎓 Información del Alumno
 - **Nombre y Apellido**: Ian Olmedo
 
+## Documentacion Particular
+
+## DESCRIPCIÓN GENERAL
+
+Este sistema permite gestionar usuarios, recursos digitales, préstamos, reservas, recordatorios y reportes dentro de una biblioteca digital. Diseñado utilizando principios SOLID, el sistema está estructurado en distintas etapas modulares y permite una fácil extensión y mantenimiento.
+
+## ARQUITECTURA DEL SISTEMA
+
+### Estructura General:
+
+- **Modelo**: Entidades principales como Usuario, RecursoDigital, Libro, Revista, Audiolibro, Prestamo, Reserva.
+- **Gestores**: Encargados de manejar la lógica de negocio. Ej: GestorUsuarios, GestorRecursos, GestorPrestamos, GestorReservas, GestorRecordatorios, GestorReportes.
+- **Consola**: Interfaces de usuario por línea de comandos. Ej: Consola, BuscadorRecursos, BuscadorReportes, MenuPrestamos, MenuReservas.
+- **Alertas**: Sistema de notificaciones y recordatorios, con niveles de urgencia.
+
+### Principios SOLID Aplicados:
+
+- **SRP**: Cada clase tiene una sola responsabilidad.
+- **OCP**: Nuevas funcionalidades agregadas mediante decoradores e interfaces sin modificar el código existente.
+- **LSP**: Las subclases de RecursoDigital pueden usarse sin alterar la funcionalidad.
+- **ISP**: Interfaces como Prestable, Renovable segregan funcionalidades.
+- **DIP**: ServicioNotificaciones permite inyectar notificaciones por Email o SMS.
+
+## FLUJO DE TRABAJO DEL SISTEMA
+
+1. Registrar usuarios y recursos digitales.
+2. Realizar préstamos, devoluciones y reservas.
+3. Generar reportes y ver alertas.
+4. Mostrar recordatorios y vencimientos.
+5. Visualizar el historial de interacciones.
+
+## REQUISITOS PREVIOS
+
+- Java SDK 17 o superior.
+- IDE como IntelliJ IDEA, Eclipse, NetBeans o terminal con javac y java.
+
+## PUESTA EN MARCHA
+
+1. **Clonar el repositorio**
+
+   ```bash
+   git clone git@github.com:um-programacion-ii/programacion-2-trabajo-practico-2-IanOlmedo.git
+   ```
+
+2. **Descargar el compilador de Java (javac)**
+
+   ```bash
+   sudo apt install default-jdk
+   ```
+
+3. **Compilar el proyecto**
+
+   ```bash
+   find src -name "*.java" > sources.txt
+   javac -d out @sources.txt
+   ```
+
+4. **Ejecutar la aplicación**
+
+   ```bash
+   java -cp out app.Main
+   ```
+
+   O desde tu IDE, ejecutar la clase `app.Main`.
+
+## GUÍA DE USO Y CASOS DE PRUEBA
+
+### USUARIOS
+
+- Registrar nuevo usuario: ingresar DNI, nombre y correo.
+- Visualizar usuarios registrados desde el menú.
+
+### RECURSOS
+
+- Registrar libros, revistas o audiolibros.
+- Listarlos o buscarlos por título o categoría.
+
+### PRÉSTAMOS Y RESERVAS
+
+- Realizar préstamo ingresando ID de usuario y título.
+- Devolver recurso y liberar su estado.
+- Reservar recurso si está en uso (con cola de espera).
+- Procesar reservas.
+
+### RECORDATORIOS
+
+- Alertas por préstamos cercanos al vencimiento (24h antes y el día exacto).
+- Historial disponible desde el menú principal.
+
+### REPORTES
+
+- Ver recursos más prestados.
+- Usuarios más activos.
+- Categorías más utilizadas.
+- Generación asincrónica usando ExecutorService.
+
+## EJEMPLOS DE FLUJO COMPLETO
+
+### 1. Registro y Préstamo
+
+- Registrar usuario: DNI 123, Nombre Ian, Email ian@gmail.com
+- Registrar libro: Título Harry Potter, Autor Daniel Quinteros, Páginas 561
+- Realizar préstamo del libro Harry Potter al usuario Ian
+
+### 2. Reserva y Devolución
+
+- Usuario Reynier intenta reservar el libro Harry Potter
+- Ian devuelve el recurso
+- Reynier recibe el recurso mediante sistema de reservas
+
+### 3. Reportes y Estadísticas
+
+- Ir a "Menú de Reportes" y seleccionar:
+  - Recursos más prestados
+  - Usuarios más activos
+  - Categorías más utilizadas
 ## 📋 Requisitos Adicionales
 
 ### Documentación del Sistema
